@@ -35,7 +35,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 # Step 9: Configure Nginx
-RUN rm /etc/nginx/conf.d/default.conf
 COPY docker/nginx/default.conf /etc/nginx/conf.d/
 
 # Step 10: Configure Supervisor to run PHP-FPM + Nginx
