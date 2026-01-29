@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     nginx \
     supervisor \
-    && docker-php-ext-install pdo_mysql mbstring zip \
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql mbstring zip \
     && apt-get clean
 
 # Install Composer
