@@ -9,10 +9,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
     curl \
-    nginx \
-    supervisor \
-    && docker-php-ext-install pdo_mysql mbstring zip \
-    && apt-get clean
+    && docker-php-ext-install pdo_mysql mbstring zip
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -33,15 +30,8 @@ COPY . .
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Step 9: Configure Nginx
-RUN rm /etc/nginx/conf.d/default.conf
-COPY docker/nginx/default.conf /etc/nginx/conf.d/
-
-# Step 10: Configure Supervisor to run PHP-FPM + Nginx
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Expose PHP-FPM port (FastCGI)
-EXPOSE 80
+EXPOSE 9000
 
 # Default CMD - run PHP-FPM
 COPY docker-entrypoint.sh /usr/local/bin/

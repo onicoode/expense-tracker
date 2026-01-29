@@ -1,0 +1,43 @@
+
+services:
+
+  # PHP-FPM / Laravel container
+  php-fpm:
+    build:
+      context: ./
+    container_name: expense-tracker-php
+    volumes:
+      - ./storage:/var/www/storage        # persistent storage
+      - ./bootstrap/cache:/var/www/bootstrap/cache
+    depends_on:
+      - db
+
+  # Nginx container
+  nginx:
+    image: nginx:alpine
+    container_name: expense-tracker-nginx
+    ports:
+      - "8080:80"         # expose web port
+    volumes:
+      - ./:/var/www  # bind mount Laravel code (read by Nginx)
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+
+  # Mysql Container
+  db:
+    image: mysql:8.0
+    container_name: expense-tracker-db
+    environment:
+      MYSQL_DATABASE: expenseTrackerDB
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+# Named volume for Mysql persistence
+volumes:
+  dbdata:
