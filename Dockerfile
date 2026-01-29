@@ -39,7 +39,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY docker/nginx/default.conf /etc/nginx/conf.d/
 
 # Step 10: Configure Supervisor to run PHP-FPM + Nginx
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose PHP-FPM port (FastCGI)
 EXPOSE 80
