@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     nginx \
     supervisor \
     libpq-dev \
+    nodejs \
+    npm \
     && docker-php-ext-install pdo_pgsql mbstring zip \
     && apt-get clean
 
@@ -29,6 +31,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # copy laravel application
 COPY . .
+
+# Build Vite assets
+RUN npm install && npm run build
 
 # Fix permissions
 RUN chown -R www-data:www-data storage bootstrap/cache \
