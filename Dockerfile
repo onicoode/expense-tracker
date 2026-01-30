@@ -46,4 +46,4 @@ EXPOSE 80
 # Default CMD - run PHP-FPM
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-CMD ["php-fpm"]
+CMD ["supervisord", "-n"]
