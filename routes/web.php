@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExpenseController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('dashboard');
 })->middleware('auth');
 
 Route::get('/dashboard', function () {

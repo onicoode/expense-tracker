@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Expenses
+            Catatan Pengeluaran
         </h2>
     </x-slot>
 
@@ -10,11 +10,11 @@
             <div class="bg-white p-6 shadow rounded">
 
                 @if ($expenses->isEmpty())
-                    <a href="/expenses/create" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">+ Add Expense</a>
+                    <a href="/expenses/create" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">+ Catat Pengeluaran</a>
                     <br><br>                
-                    <p>No expense yet.</p>
+                    <p>Belum ada pengeluaran.</p>
                 @else
-                    <a href="/expenses/create" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">+ Add Expense</a>
+                    <a href="/expenses/create" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">+ Catat Pengeluaran</a>
                     <br><br>
 
                     <table class="min-w-full divide-y divide-gray-200">
@@ -35,14 +35,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ number_format($expense->amount) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $expense->note }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap space-x-2">
-                                        <a href="/expenses/{{ $expense->id }}/edit">Edit</a>
+                                        <a href="/expenses/{{ $expense->id }}/edit">Ubah</a>
 
                                         <form action="/expenses/{{ $expense->id }}" method="POST"
                                             style="display:inline"
-                                            onsubmit="return confirm('Delete this expense?');">
+                                            onsubmit="return confirm('Hapus Pengeluaran ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                            <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>

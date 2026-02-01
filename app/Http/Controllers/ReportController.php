@@ -13,14 +13,14 @@ class ReportController extends Controller
         $userId = auth()->id();
 
         $monthlyExpenses = Expense::select(
-                DB::raw('YEAR(expense_date) as year'),
-                DB::raw('MONTH(expense_date) as month'),
+                DB::raw('EXTRACT(YEAR FROM expense_date) as year'),
+                DB::raw('EXTRACT(MONTH FROM expense_date) as month'),
                 DB::raw('SUM(amount) as total')
             )
             ->where('user_id', $userId)
-            ->groupBy('year', 'month')
-            ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM expense_date)'), DB::raw('EXTRACT(MONTH FROM expense_date)'))
+            ->orderBy(DB::raw('EXTRACT(YEAR FROM expense_date)'), 'desc')
+            ->orderBy(DB::raw('EXTRACT(MONTH FROM expense_date)'), 'desc')
             ->get();
 
         return view('reports.monthly', compact('monthlyExpenses'));

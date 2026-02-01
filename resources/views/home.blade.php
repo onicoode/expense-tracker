@@ -10,7 +10,7 @@
             <div class="bg-white p-6 shadow rounded">
                 <h3> Welcome, {{ auth()->user()->name }}</h3>
 
-                <p>This is your landing Page cuy.</p>
+                <p>This is your landing Page.</p>
                 <br><br>
                 <a href="/expenses">Go to Expenses</a>
                 <br><br>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Monthly Expense Report
+            Laporan Pengeluaran Bulanan
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="bg-white p-6 shadow rounded">
 
                 @if($monthlyExpenses->isEmpty())
-                    <p>No expenses yet.</p>
+                    <p>Belum Ada Pengeluaran.</p>
                 @else
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
