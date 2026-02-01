@@ -1,25 +1,35 @@
 
 services:
 
-  # PHP-FPM / Laravel container
-  php-fpm:
-    build:
+  # Nginx and PHP fpm container
+  web:
+    build: 
       context: ./
-    container_name: expense-tracker-php
+    container_name: expense-tracker-web
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
     volumes:
-      - ./storage:/var/www/storage        # persistent storage
+      - ./:/var/www 
+      - ./storage:/var/www/storage
       - ./bootstrap/cache:/var/www/bootstrap/cache
     depends_on:
       - db
 
-  # Nginx container
-  nginx:
-    image: nginx:alpine
-    container_name: expense-tracker-nginx
+  # PostGres Database
+  db:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
     ports:
-      - "8080:80"         # expose web port
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: expenseTrackerDB
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
     volumes:
-      - ./:/var/www  # bind mount Laravel code (read by Nginx)
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - php-fpm
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

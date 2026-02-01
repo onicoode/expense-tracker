@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: expense-tracker
+    runtime: docker
+    plan: free
+    envVars:
+      - key: APP_NAME
+        value: ExpenseTracker
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:NjXvJ1RjcQrLI2B2vtVV0BnxoIHqJD4StyPLvksrKss=
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://expense-tracker-k08z.onrender.com
+      - key: LOG_CHANNEL
+        value: stack
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d5tuamnpm1nc73fnfkn0-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: expense_tracker_db_b4d6
+      - key: DB_USERNAME
+        value: admin
+      - key: DB_PASSWORD
+        value: 4xjaEbpzod0CV1EfO9AaxwjNy12Gn0iE
+    healthCheckPath: /

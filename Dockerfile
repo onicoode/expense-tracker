@@ -1,21 +1,33 @@
 # Base Image with PHP-FPM
-FROM php:8.3-fpm
+FROM php:8.3-fpm-alpine
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
+    bash \
     git \
     unzip \
+    zip \
+    oniguruma-dev \
     libpng-dev \
-    libonig-dev \
     libzip-dev \
+    icu-dev \
+    postgresql-dev \
     curl \
     nginx \
     supervisor \
     libpq-dev \
     nodejs \
-    npm \
-    && docker-php-ext-install pdo_pgsql mbstring zip \
-    && apt-get clean
+    npm
+
+# ===============================
+# PHP extensions
+# ===============================
+RUN docker-php-ext-install \
+    pdo \
+    pdo_pgsql \
+    mbstring \
+    intl \
+    zip
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -40,7 +52,8 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 # Step 9: Configure Nginx
-COPY docker/nginx/default.conf /etc/nginx/conf.d/
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Step 10: Configure Supervisor to run PHP-FPM + Nginx
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -51,4 +64,4 @@ EXPOSE 80
 # Default CMD - run PHP-FPM
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-CMD ["supervisord", "-n"]
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

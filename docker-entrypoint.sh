@@ -20,6 +20,7 @@ try {
     );
     echo 'DB ready';
 } catch (Exception \$e) {
+    echo 'DB Error: '.\$e->getMessage();
     exit(1);
 }
 "; do
@@ -38,6 +39,10 @@ php artisan route:cache || true
 php artisan view:cache || true
 
 echo "Configuring nginx port..."
+
+# Render provides PORT environment variable
+# Default to 80 for local development
+: "${PORT:=80}"
 
 sed -i "s/__PORT__/${PORT}/g" /etc/nginx/conf.d/default.conf
 
