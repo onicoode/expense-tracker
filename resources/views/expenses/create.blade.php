@@ -17,7 +17,7 @@
                     </ul>
                 @endif
 
-                <form method="POST" action="/expenses">
+                <form method="POST" action="/expenses" enctype="multipart/form-data">
                     @csrf
 
                     <div>
@@ -39,6 +39,21 @@
                         <label>Note</label><br>
                         <textarea name="note">{{ old('note') }}</textarea>
                     </div>
+
+                    <div>
+                        <label>Bukti (Opsional)</label><br>
+                        <input 
+                            type="file" 
+                            name="receipt" 
+                            accept="image/*,application/pdf"
+                            capture="environment"
+                            class="mt-1 block"
+                        >
+                        <br>
+                        <small style="color: #666;">
+                            📸 Foto langsung atau upload gambar/PDF (max 5MB, otomatis dikompres)
+                        </small>
+                    </div>                    
 
                     <br>
 

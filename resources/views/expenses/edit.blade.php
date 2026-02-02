@@ -18,7 +18,7 @@
                     </ul>
                 @endif
 
-                <form method="POST" action="/expenses/{{ $expense->id }}">
+                <form method="POST" action="/expenses/{{ $expense->id }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -43,6 +43,39 @@
                         <label>Note</label><br>
                         <textarea name="note">{{ old('note', $expense->note) }}</textarea>
                     </div>
+
+                    <div>
+                        <label>Bukti (Opsional)</label><br>
+                        
+                        @if($expense->receipt)
+                            <div style="margin-bottom: 10px;">
+                                <strong>Bukti saat ini:</strong><br>
+                                @if(Str::endsWith($expense->receipt, '.pdf'))
+                                    <a href="{{ asset('storage/' . $expense->receipt) }}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                        📄 Lihat PDF
+                                    </a>
+                                @else
+                                    <img 
+                                        src="{{ asset('storage/' . $expense->receipt) }}" 
+                                        alt="Receipt" 
+                                        style="max-width: 200px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                    >
+                                @endif
+                            </div>
+                        @endif
+                        
+                        <input 
+                            type="file" 
+                            name="receipt" 
+                            accept="image/*,application/pdf"
+                            capture="environment"
+                            class="mt-1 block"
+                        >
+                        <br>
+                        <small style="color: #666;">
+                            📸 Upload bukti baru untuk mengganti yang lama
+                        </small>
+                    </div>                    
 
                     <br>
 

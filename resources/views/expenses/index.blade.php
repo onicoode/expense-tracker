@@ -24,6 +24,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bukti</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
@@ -34,6 +35,28 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $expense->category }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ number_format($expense->amount) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $expense->note }}</td>
+
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($expense->receipt)
+                                            @if(Str::endsWith($expense->receipt, '.pdf'))
+                                                <a href="{{ asset('storage/' . $expense->receipt) }}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                    📄 PDF
+                                                </a>
+                                            @else
+                                                <a href="{{ asset('storage/' . $expense->receipt) }}" target="_blank">
+                                                    <img 
+                                                        src="{{ asset('storage/' . $expense->receipt) }}" 
+                                                        alt="Receipt" 
+                                                        style="max-width: 50px; cursor: pointer; border-radius: 4px;"
+                                                        title="Klik untuk memperbesar"
+                                                    >
+                                                </a>
+                                            @endif
+                                        @else
+                                            <span style="color: #999;">-</span>
+                                        @endif
+                                    </td>
+                                                                        
                                     <td class="px-6 py-4 whitespace-nowrap space-x-2">
                                         <a href="/expenses/{{ $expense->id }}/edit">Ubah</a>
 

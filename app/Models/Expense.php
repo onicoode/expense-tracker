@@ -17,6 +17,7 @@ class Expense extends Model
         'category',
         'amount',
         'note',
+        'receipt',        
     ];
 
     public function user()

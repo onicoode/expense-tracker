@@ -3,6 +3,8 @@ FROM php:8.3-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
+    freetype-dev \
+    libjpeg-turbo-dev \
     bash \
     git \
     unzip \
@@ -19,6 +21,9 @@ RUN apk add --no-cache \
     nodejs \
     npm
 
+# Configure and install GD
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+
 # ===============================
 # PHP extensions
 # ===============================
@@ -27,7 +32,8 @@ RUN docker-php-ext-install \
     pdo_pgsql \
     mbstring \
     intl \
-    zip
+    zip \
+    gd
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
